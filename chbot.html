@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Integration</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        /* Add your custom styles for the chatbot interface */
+        body{margin-left: 25%;}
+        h1{
+            box-shadow: 1,1 salmon;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color:blue;"" >Welcome to Jamun Tek Tech Chatbot</h1>
+    <h2 style="color:blueviolet;">Write your query,How can I assist you?</h2>
+    <div id="chat-container">
+        <div id="chat-log">
+            <!-- Chat log will be displayed here -->
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button id="send-button">Send</button>
+    </div>
+
+    <!-- Add your JavaScript code here -->
+    <script>
+        // Event listener for sending user input
+        document.getElementById("send-button").addEventListener("click", function() {
+            var userInput = document.getElementById("user-input").value;
+            sendMessage(userInput);
+        });
+
+        // Function to display user message in the chat log
+        function displayUserMessage(message) {
+            var chatLog = document.getElementById("chat-log");
+            chatLog.innerHTML += "<div class='user-message'>" + message + "</div>";
+        }
+
+        // Function to display chatbot response in the chat log
+        function displayChatbotResponse(response) {
+            var chatLog = document.getElementById("chat-log");
+            chatLog.innerHTML += "<div class='chatbot-response'>" + response + "</div>";
+        }
+
+        // Function to send user input to the server and receive chatbot response
+        function sendMessage(userInput) {
+            // Display the user message in the chat log
+            displayUserMessage(userInput);
+
+            // Send an AJAX request to the server to get the chatbot response
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Display the chatbot response in the chat log
+                    displayChatbotResponse(this.responseText);
+                }
+            };
+            xhttp.open("GET", "/get-response?user_input=" + encodeURIComponent(userInput), true);
+            xhttp.send();
+        }
+    </script>
+</body>
+</html>
